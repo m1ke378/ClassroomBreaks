@@ -1,0 +1,32 @@
+.baseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background-color: var(--divs-background);
+  border-radius: 30px;
+  padding: 1.2rem;
+  max-width: 500px;
+  width: 100%;
+  min-width: 300px;
+
+  animation: slideIn 0.5s ease;
+
+  margin: 0 auto;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 600px) {
+}
+
+@media (prefers-color-scheme: dark) {
+}

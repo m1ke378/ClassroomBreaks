@@ -1,9 +1,33 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.baseCardLink {
+  background-color: var(--child-divs-background);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.baseCardLink span {
+  transition: all 0.3s ease-in-out;
+}
+
+.baseCardLink:active {
+  background-color: var(--child-divs-background-hover);
+  box-shadow: inset var(--button-box-shadow);
+}
+
+.baseCardLink:active span {
+  transform: translateY(5px);
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-}
-
-@media (max-width: 600px) {
-}
-
-@media (prefers-color-scheme: dark) {
+  .baseCardLink:hover {
+    background-color: var(--child-divs-background-hover);
+  }
 }

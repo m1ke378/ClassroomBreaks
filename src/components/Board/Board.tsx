@@ -1,16 +1,15 @@
-import { useState } from "react";
 import styles from "./Board.module.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
-import { BoardProps, Cell } from "@/utils/types"; // Ensure these types are correctly imported
+import { BoardProps, Cell } from "@/utils/types";
 
 export default function Board({ gameState }: { gameState: BoardProps }) {
-  const [isCheckingBoard, setIsCheckingBoard] = useState(false);
   const {
     board,
     handlePlay,
+    currentPlayer,
     players,
     winnersBoard,
     activeCells,
@@ -35,56 +34,53 @@ export default function Board({ gameState }: { gameState: BoardProps }) {
                 ? styles.finished
                 : ""
             }`}
+            style={
+              activeCells.includes(`${bigRowIndex}${bigCellIndex}`)
+                ? {
+                    boxShadow: `0 0 0 2px ${
+                      currentPlayer.symbol === "X"
+                        ? "var(--x-symbol-color)"
+                        : "var(--o-symbol-color)"
+                    }`,
+                  }
+                : {}
+            }
           >
             <div className={styles.smallCellsContainer}>
               {bigCell.map((smallRow, smallRowIndex) =>
-                smallRow.map((smallCell, smallCellIndex) => {
-                  return (
-                    <div
-                      key={`${bigRowIndex}${bigCellIndex}-${smallRowIndex}${smallCellIndex}`}
-                      className={styles.smallCell}
-                      onClick={() => {
-                        if (
-                          winner ||
-                          !activeCells.includes(
-                            `${bigRowIndex}${bigCellIndex}`
-                          ) ||
-                          finishedCells.includes(
-                            `${bigRowIndex}${bigCellIndex}`
-                          ) ||
-                          smallCell !== ""
-                        ) {
-                          return;
-                        }
-                        handlePlay({
-                          bigRowIndex,
-                          bigCellIndex,
-                          smallRowIndex,
-                          smallCellIndex,
-                        } as Cell); // Ensure type matching
-                      }}
-                      style={{
-                        color:
-                          smallCell === players.player1.symbol
-                            ? "var(--primary-color-symbol)"
-                            : "var(--secondary-color-symbol)",
-                      }}
-                    >
-                      {smallCell}
-                    </div>
-                  );
-                })
+                smallRow.map((smallCell, smallCellIndex) => (
+                  <div
+                    key={`${bigRowIndex}${bigCellIndex}-${smallRowIndex}${smallCellIndex}`}
+                    className={styles.smallCell}
+                    onClick={() =>
+                      handlePlay({
+                        bigRowIndex,
+                        bigCellIndex,
+                        smallRowIndex,
+                        smallCellIndex,
+                      } as Cell)
+                    }
+                    style={{
+                      color:
+                        smallCell === players.player1.symbol
+                          ? "var(--x-symbol-color)"
+                          : "var(--o-symbol-color)",
+                    }}
+                  >
+                    {smallCell}
+                  </div>
+                ))
               )}
             </div>
-            {winnersBoard[bigRowIndex][bigCellIndex] && !isCheckingBoard && (
+            {winnersBoard[bigRowIndex][bigCellIndex] && (
               <div
                 className={styles.bigSymbol}
                 style={{
                   color:
                     winnersBoard[bigRowIndex][bigCellIndex] ===
                     players.player1.symbol
-                      ? "var(--primary-color-symbol-finished)"
-                      : "var(--secondary-color-symbol-finished)",
+                      ? "var(--x-symbol-color)"
+                      : "var(--o-symbol-color)",
                 }}
               >
                 {winnersBoard[bigRowIndex][bigCellIndex]}
@@ -93,15 +89,15 @@ export default function Board({ gameState }: { gameState: BoardProps }) {
           </div>
         ))
       )}
-      {winner && !isCheckingBoard && (
+      {winner && (
         <div className={styles.winner}>
           <div>
             <span
               style={{
                 color:
                   winner.symbol === "X"
-                    ? "var(--primary-color-symbol-finished)"
-                    : "var(--secondary-color-symbol-finished)",
+                    ? "var(--x-symbol-color-finished)"
+                    : "var(--o-symbol-color-finished)",
               }}
             >
               {winner.name}
@@ -110,29 +106,8 @@ export default function Board({ gameState }: { gameState: BoardProps }) {
           </div>
           <div className={styles.buttonsContainer}>
             <button onClick={restartGame}>Restart</button>
-            <button
-              onClick={() => {
-                setIsCheckingBoard(true);
-              }}
-            >
-              Check Board
-            </button>
           </div>
         </div>
-      )}
-      {isCheckingBoard && (
-        <button
-          className={styles.restartOverlayButton}
-          onClick={() => {
-            setIsCheckingBoard(false);
-            restartGame();
-          }}
-        >
-          Restart
-          <span>
-            <FontAwesomeIcon icon={faArrowRotateLeft} />
-          </span>
-        </button>
       )}
     </div>
   );

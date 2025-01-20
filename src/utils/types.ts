@@ -7,6 +7,7 @@ export interface BoardProps {
   finishedCells: string[]; // List of completed big cells
   winner: { name: string; symbol: string } | null; // Winner object or null if no winner
   restartGame: () => void; // Function to restart the game
+  currentPlayer: Player; // Current player object
 }
 
 export interface Cell {
@@ -16,12 +17,23 @@ export interface Cell {
   smallCellIndex: number;
 }
 
-interface Player {
+export interface Player {
   name: string;
   symbol: string;
 }
 
-interface Players {
+export interface Players {
   player1: Player;
   player2: Player;
 }
+
+export type State = {
+  board: string[][][][];
+  activeCells: string[];
+  finishedCells: string[];
+  winnersBoard: string[][];
+  currentPlayer: Player;
+  winner: Player | null;
+  players: { player1: Player; player2: Player };
+  comboArray: string[];
+};
