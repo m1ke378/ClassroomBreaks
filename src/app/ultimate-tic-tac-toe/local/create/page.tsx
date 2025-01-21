@@ -15,10 +15,14 @@ export default function CreateLocalGamePage() {
     const player2name = player2input.current ? player2input.current.value : "";
     if (!player1name && !player2name) {
       if (confirm("Play with default names?")) {
-        router.push(`/local/game?player1=Player1&player2=Player2`);
+        router.push(
+          `/ultimate-tic-tac-toe/local/game?player1=Player1&player2=Player2`
+        );
       }
     } else {
-      router.push(`/local/game?player1=${player1name}&player2=${player2name}`);
+      router.push(
+        `/ultimate-tic-tac-toe/local/game?player1=${player1name}&player2=${player2name}`
+      );
     }
   };
 

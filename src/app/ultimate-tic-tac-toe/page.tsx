@@ -8,22 +8,13 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <BaseCard>
-        <Link
-          href="/ultimate-tic-tac-toe/local/create"
-          className={styles.baseCardLink}
-        >
+        <Link href="/local/create" className={styles.baseCardLink}>
           Play locally
         </Link>
-        <Link
-          href="/ultimate-tic-tac-toe/online/create/public"
-          className={styles.baseCardLink}
-        >
+        <Link href="/online/create/public" className={styles.baseCardLink}>
           Play online
         </Link>
-        <Link
-          href="/ultimate-tic-tac-toe/online/create/private"
-          className={styles.baseCardLink}
-        >
+        <Link href="/online/create/private" className={styles.baseCardLink}>
           Play with a friend
         </Link>
       </BaseCard>
