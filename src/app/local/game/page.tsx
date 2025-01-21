@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Board from "@/components/Board/Board";
 import { handlePlay } from "@/utils/functions";
 import { Player, Players } from "@/utils/types";
 import styles from "./local.module.css";
 import { useSearchParams } from "next/navigation";
-import { u } from "motion/react-client";
 import TopBar from "@/components/TopBar/TopBar";
 
-export default function LocalGame() {
+export default function LocalGamePage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <GameContent />
+    </Suspense>
+  );
+}
+
+function Loading() {
+  return <p>Loading game...</p>;
+}
+
+function GameContent() {
   const comboArray: string[] = [];
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
