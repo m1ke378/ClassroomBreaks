@@ -5,7 +5,7 @@
   --background-blur: blur(10px);
   --button-box-shadow: 5px 5px 10px rgba(34, 73, 94, 0.5);
   --foreground: #ededed;
-  --placeholder: #85a0b0;
+  --placeholder: #708893;
 
   --submit-color: rgb(47, 195, 91);
   --submit-gradient: linear-gradient(135deg, #72e495, #3aa55a);
@@ -96,8 +96,6 @@ header {
 
 main {
   padding: 2rem 4rem;
-  height: 100%;
-  overflow-y: auto;
 }
 
 a {
@@ -112,7 +110,15 @@ button {
   background: none;
   color: var(--foreground);
   font-size: 1rem;
+  border-radius: 30px;
+  padding: 0.8rem 2rem;
   transition: all 0.3s ease-in-out;
+}
+
+@media (hover: hover) {
+  button:hover {
+    background-color: var(--child-divs-background-hover);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

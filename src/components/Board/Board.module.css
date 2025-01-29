@@ -6,7 +6,8 @@
 
   max-height: 70vh;
   min-width: 300px;
-  aspect-ratio: 1;
+  min-height: 300px;
+  aspect-ratio: 1/1;
 
   margin: 0 auto; /* Center it horizontally */
   position: relative;
@@ -31,7 +32,6 @@
   padding: 10px;
   transition: all 0.5s;
   position: relative;
-  aspect-ratio: 1;
 }
 
 .bigCell.active {

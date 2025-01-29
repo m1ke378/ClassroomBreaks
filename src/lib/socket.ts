@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, { autoConnect: false });
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL!, { autoConnect: false });
 
 export const connectSocket = () => socket.connect();
 export const disconnectSocket = () => socket.disconnect();

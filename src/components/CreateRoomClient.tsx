@@ -1,10 +1,12 @@
 "use client"; // Mark this component as a client component
 
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 export default function CreateRoomClient() {
   const [message, setMessage] = useState("");
   const playerNameRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -14,6 +16,8 @@ export default function CreateRoomClient() {
       return;
     }
 
+    let playerName = playerNameRef.current.value;
+
     fetch(`${API_URL}/create-room`, {
       method: "POST",
       headers: {
@@ -22,13 +26,16 @@ export default function CreateRoomClient() {
       body: JSON.stringify({
         isPrivate: false,
         password: null,
-        hostName: playerNameRef.current.value,
+        hostName: playerName,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         setMessage(data.message);
-        console.log(data);
+        if (data.roomId)
+          router.push(
+            `/ultimate-tic-tac-toe/online/${data.roomId}?player-name=${playerName}`
+          );
       })
       .catch((error) => {
         setMessage("Failed to create room.");

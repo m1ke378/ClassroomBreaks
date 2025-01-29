@@ -11,9 +11,7 @@
   font-weight: 600;
   display: block;
   margin: 1.5rem auto;
-  padding: 0.8rem 2rem;
   background: var(--submit-gradient);
-  border-radius: 30px;
 }
 
 .submit-button:hover {
@@ -108,6 +106,13 @@ label {
   height: fit-content;
   max-height: 300px;
   overflow-y: auto;
+}
+
+.noRooms {
+  text-align: center;
+  padding: 1rem;
+  font-weight: 600;
+  color: var(--placeholder);
 }
 
 .room {

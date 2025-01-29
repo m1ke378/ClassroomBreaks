@@ -1,71 +1,58 @@
-import { useEffect, useRef, useState } from "react";
+"use client";
 
-interface UseWebSocketOptions {
-  onOpen?: (event: Event) => void;
-  onClose?: (event: CloseEvent) => void;
-  onError?: (event: Event) => void;
-  onMessage?: (event: MessageEvent) => void;
+import { useEffect, useState } from "react";
+import { io, Socket } from "socket.io-client";
+
+interface UseSocketIOOptions {
+  onConnect?: () => void;
+  onDisconnect?: () => void;
+  onError?: (error: any) => void;
+  onMessage?: (event: any) => void;
 }
 
-export const useWebSocket = (
-  url: string,
-  options: UseWebSocketOptions = {}
-) => {
+export const useWebSocket = (url: string, options: UseSocketIOOptions = {}) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const socketRef = useRef<WebSocket | null>(null);
-
-  const sendMessage = (message: string) => {
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-      socketRef.current.send(message);
-    }
-  };
-
-  const connect = () => {
-    if (
-      !socketRef.current ||
-      socketRef.current.readyState >= WebSocket.CLOSING
-    ) {
-      const socket = new WebSocket(url);
-      socketRef.current = socket;
-
-      socket.onopen = (event) => {
-        setIsConnected(true);
-        options.onOpen?.(event);
-      };
-
-      socket.onmessage = (event) => {
-        options.onMessage?.(event);
-      };
-
-      socket.onclose = (event) => {
-        setIsConnected(false);
-        options.onClose?.(event);
-      };
-
-      socket.onerror = (event) => {
-        options.onError?.(event);
-      };
-    }
-  };
-
-  const disconnect = () => {
-    if (socketRef.current) {
-      socketRef.current.close();
-    }
-  };
 
   useEffect(() => {
-    connect();
+    const newSocket = io(url, {
+      transports: ["websocket"], // Ensures WebSocket-only connection
+    });
+
+    setSocket(newSocket);
+
+    newSocket.on("connect", () => {
+      setIsConnected(true);
+      options.onConnect?.();
+    });
+
+    newSocket.on("disconnect", () => {
+      setIsConnected(false);
+      options.onDisconnect?.();
+    });
+
+    newSocket.on("error", (error) => {
+      options.onError?.(error);
+    });
+
+    newSocket.on("message", (event) => {
+      options.onMessage?.(event);
+    });
+
     return () => {
-      disconnect();
+      newSocket.disconnect();
     };
   }, [url]);
+
+  const sendMessage = (event: string, data: any) => {
+    if (socket) {
+      socket.emit(event, data);
+    }
+  };
 
   return {
     sendMessage,
     isConnected,
-    connect,
-    disconnect,
-    socket: socketRef.current,
+    socket,
   };
 };

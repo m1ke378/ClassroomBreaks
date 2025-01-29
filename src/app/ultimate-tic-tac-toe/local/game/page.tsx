@@ -113,15 +113,16 @@ function GameContent() {
       <Board
         gameState={{
           board,
-          handlePlay: handlePlayMove,
           currentPlayer,
           players,
           winnersBoard,
           activeCells,
           finishedCells,
           winner,
-          restartGame,
+          comboArray,
         }}
+        handlePlay={handlePlayMove}
+        restartGame={restartGame}
       />
     </div>
   );

@@ -1,22 +1,33 @@
+"use client";
+
 import styles from "./Board.module.css";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
-
 import { BoardProps, Cell } from "@/utils/types";
+import { useEffect, useState } from "react";
+import socket from "@/lib/socket";
 
-export default function Board({ gameState }: { gameState: BoardProps }) {
+export default function Board({
+  gameState,
+  handlePlay,
+  restartGame,
+}: BoardProps) {
   const {
     board,
-    handlePlay,
     currentPlayer,
     players,
     winnersBoard,
     activeCells,
     finishedCells,
     winner,
-    restartGame,
   } = gameState;
+
+  const [mySocketId, setMySocketId] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    setMySocketId(socket.id);
+  }, []);
+
+  const isMyTurn = mySocketId === currentPlayer?.id;
 
   return (
     <div className={styles.board}>
@@ -52,19 +63,24 @@ export default function Board({ gameState }: { gameState: BoardProps }) {
                   <div
                     key={`${bigRowIndex}${bigCellIndex}-${smallRowIndex}${smallCellIndex}`}
                     className={styles.smallCell}
-                    onClick={() =>
-                      handlePlay({
-                        bigRowIndex,
-                        bigCellIndex,
-                        smallRowIndex,
-                        smallCellIndex,
-                      } as Cell)
-                    }
+                    onClick={() => {
+                      if (isMyTurn && !smallCell) {
+                        handlePlay({
+                          bigRowIndex,
+                          bigCellIndex,
+                          smallRowIndex,
+                          smallCellIndex,
+                        } as Cell);
+                      }
+                    }}
                     style={{
                       color:
                         smallCell === players.player1.symbol
                           ? "var(--x-symbol-color)"
                           : "var(--o-symbol-color)",
+                      cursor:
+                        isMyTurn && !smallCell ? "pointer" : "not-allowed",
+                      opacity: isMyTurn ? "1" : "0.6",
                     }}
                   >
                     {smallCell}
