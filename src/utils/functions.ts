@@ -7,6 +7,13 @@ type HandlePlayArgs = {
   smallCellIndex: number;
 };
 
+export const comboArray: string[] = [];
+for (let i = 0; i < 3; i++) {
+  for (let j = 0; j < 3; j++) {
+    comboArray.push(`${i}${j}`);
+  }
+}
+
 export function handlePlay(
   state: State,
   { bigRowIndex, bigCellIndex, smallRowIndex, smallCellIndex }: HandlePlayArgs
@@ -18,7 +25,6 @@ export function handlePlay(
     winnersBoard,
     currentPlayer,
     players,
-    comboArray,
   } = state;
 
   const cellId = `${bigRowIndex}${bigCellIndex}`;

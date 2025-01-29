@@ -7,6 +7,7 @@ import { Player, Players } from "@/utils/types";
 import styles from "./local.module.css";
 import { useSearchParams } from "next/navigation";
 import TopBar from "@/components/TopBar/TopBar";
+import { comboArray } from "@/utils/functions";
 
 export default function LocalGamePage() {
   return (
@@ -21,13 +22,6 @@ function Loading() {
 }
 
 function GameContent() {
-  const comboArray: string[] = [];
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      comboArray.push(`${i}${j}`);
-    }
-  }
-
   // State Variables
   const [board, setBoard] = useState(
     Array(3)
@@ -83,7 +77,6 @@ function GameContent() {
         winnersBoard,
         currentPlayer,
         players,
-        comboArray,
         winner,
       },
       { bigRowIndex, bigCellIndex, smallRowIndex, smallCellIndex }
@@ -119,7 +112,6 @@ function GameContent() {
           activeCells,
           finishedCells,
           winner,
-          comboArray,
         }}
         handlePlay={handlePlayMove}
         restartGame={restartGame}

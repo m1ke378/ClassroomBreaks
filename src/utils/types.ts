@@ -30,5 +30,4 @@ export type State = {
   currentPlayer: Player;
   winner: Player | null;
   players: { player1: Player; player2: Player };
-  comboArray: string[];
 };
