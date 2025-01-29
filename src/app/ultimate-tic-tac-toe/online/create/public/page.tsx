@@ -10,6 +10,7 @@ import NameModal from "@/components/NameModal/NameModal";
 export default function CreateOnlinePublicGamePage() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   if (!API_URL) {
+    console.error("API_URL is not defined");
     throw new Error("API_URL is not defined");
   }
   const [rooms, setRooms] = useState([]);
