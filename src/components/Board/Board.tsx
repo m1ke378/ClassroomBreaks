@@ -29,6 +29,8 @@ export default function Board({
 
   const isMyTurn = mySocketId === currentPlayer?.id;
 
+  const [isCheckingBoard, setIsCheckingBoard] = useState(false);
+
   return (
     <div className={styles.board}>
       {board.map((bigRow, bigRowIndex) =>
@@ -64,7 +66,7 @@ export default function Board({
                     key={`${bigRowIndex}${bigCellIndex}-${smallRowIndex}${smallCellIndex}`}
                     className={styles.smallCell}
                     onClick={() => {
-                      if (isMyTurn && !smallCell) {
+                      if (isMyTurn && !smallCell && !isCheckingBoard) {
                         handlePlay({
                           bigRowIndex,
                           bigCellIndex,
@@ -79,7 +81,9 @@ export default function Board({
                           ? "var(--x-symbol-color)"
                           : "var(--o-symbol-color)",
                       cursor:
-                        isMyTurn && !smallCell ? "pointer" : "not-allowed",
+                        isMyTurn && !smallCell && !isCheckingBoard
+                          ? "pointer"
+                          : "initial",
                       opacity: isMyTurn ? "1" : "0.6",
                     }}
                   >
@@ -88,7 +92,7 @@ export default function Board({
                 ))
               )}
             </div>
-            {winnersBoard[bigRowIndex][bigCellIndex] && (
+            {winnersBoard[bigRowIndex][bigCellIndex] && !isCheckingBoard && (
               <div
                 className={styles.bigSymbol}
                 style={{
@@ -105,26 +109,51 @@ export default function Board({
           </div>
         ))
       )}
-      {winner && (
-        <div className={styles.winner}>
-          <div>
-            <span
-              style={{
-                color:
-                  winner.symbol === "X"
-                    ? "var(--x-symbol-color-finished)"
-                    : "var(--o-symbol-color-finished)",
+      {winner ? (
+        isCheckingBoard ? (
+          <div className={styles.checkingBoard}>
+            <button
+              onClick={() => {
+                setIsCheckingBoard(false);
+                restartGame();
               }}
+              className={styles.submit}
             >
-              {winner.name}
-            </span>{" "}
-            wins!
+              Restart
+            </button>
           </div>
-          <div className={styles.buttonsContainer}>
-            <button onClick={restartGame}>Restart</button>
+        ) : (
+          <div className={styles.winner}>
+            <div>
+              <span
+                style={{
+                  color:
+                    winner.symbol === "X"
+                      ? "var(--x-symbol-color-finished)"
+                      : "var(--o-symbol-color-finished)",
+                }}
+              >
+                {winner.name}
+              </span>{" "}
+              wins!
+            </div>
+            <div className={styles.buttonsContainer}>
+              <button
+                onClick={() => {
+                  setIsCheckingBoard(false);
+                  restartGame();
+                }}
+                className={styles.submit}
+              >
+                Restart
+              </button>
+              <button onClick={() => setIsCheckingBoard(true)}>
+                Check Board
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      ) : null}
     </div>
   );
 }

@@ -1,21 +1,22 @@
 :root {
   --divs-background: rgba(255, 255, 255, 0.3);
+  --divs-background-hover: rgba(255, 255, 255, 0.5);
   --child-divs-background: rgba(255, 255, 255, 0.2);
   --child-divs-background-hover: rgba(255, 255, 255, 0.4);
   --background-blur: blur(10px);
-  --button-box-shadow: 5px 5px 10px rgba(34, 73, 94, 0.5);
+  --box-shadow: 5px 5px 10px rgba(34, 73, 94, 0.5);
   --foreground: #ededed;
   --placeholder: #708893;
 
   --submit-color: rgb(47, 195, 91);
   --submit-gradient: linear-gradient(135deg, #72e495, #3aa55a);
-  --submit-shadow: 3px 6px 20px rgba(34, 139, 34, 0.4),
-    2px 4px 6px rgba(0, 0, 0, 0.2);
+  --submit-shadow: 3px 6px 20px rgba(50, 160, 50, 0.4),
+    2px 4px 6px rgba(18, 36, 27, 0.2);
 
   --x-symbol-color: #ff429a;
   --o-symbol-color: #00c8f0;
 
-  --active-cell-background: rgba(255, 255, 255, 0.4);
+  --active-cell-background: rgba(255, 255, 255, 0.3);
   --disabled-cell-background: rgba(255, 255, 255, 0.15);
   --finished-cell-background: rgba(255, 255, 255, 0.03);
 
@@ -36,10 +37,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --divs-background: rgba(0, 0, 0, 0.5);
+    --divs-background-hover: rgba(0, 0, 0, 0.6);
     --child-divs-background: rgba(0, 0, 0, 0.2);
     --background-blur: blur(10px);
     --child-divs-background-hover: rgba(255, 255, 255, 0.04);
-    --button-box-shadow: 5px 5px 15px rgba(3, 15, 22, 0.8);
+    --box-shadow: 5px 5px 15px rgba(3, 15, 22, 0.8);
     --submit-shadow: 1px 4px 15px rgba(50, 161, 83, 0.4),
       0px 3px 6px rgba(0, 0, 0, 0.6);
     --foreground: #ededed;

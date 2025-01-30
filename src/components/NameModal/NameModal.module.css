@@ -30,7 +30,7 @@
   gap: 1rem;
   background: var(--divs-background);
   backdrop-filter: blur(20px);
-  box-shadow: 0 0 30px rgba(3, 15, 22, 0.8);
+  box-shadow: var(--box-shadow);
   padding: 2rem;
   min-width: 300px;
   max-width: 500px;

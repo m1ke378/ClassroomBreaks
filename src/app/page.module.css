@@ -18,7 +18,7 @@
 
 .baseCardLink:active {
   background-color: var(--child-divs-background-hover);
-  box-shadow: inset var(--button-box-shadow);
+  box-shadow: inset var(--box-shadow);
 }
 
 .baseCardLink:active span {
