@@ -9,10 +9,9 @@
   border-radius: 30px;
   width: fit-content;
   max-width: 100%;
-  min-width: 300px;
   transition: all 0.3s ease-in-out;
   animation: slideIn 0.5s ease;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
 }
 
 @keyframes slideIn {

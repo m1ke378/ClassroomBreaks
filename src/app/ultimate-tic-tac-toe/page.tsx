@@ -1,23 +1,40 @@
 import styles from "./page.module.css";
-import motion from "motion/react";
 import Link from "next/link";
 
-import BaseCard from "@/components/BaseCard/BaseCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGlobe,
+  faPeopleArrows,
+  faUser,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <BaseCard>
-        <Link href="/local/create" className={styles.baseCardLink}>
-          Play locally
+      <div className={styles.gameSelectorsContainer}>
+        <Link
+          href="/ultimate-tic-tac-toe/local/create"
+          className={styles.gameSelectorLink}
+        >
+          <FontAwesomeIcon icon={faUserGroup} />
+          <span>Play Locally</span>
         </Link>
-        <Link href="/online/create/public" className={styles.baseCardLink}>
-          Play online
+        <Link
+          href="/ultimate-tic-tac-toe/online/create/private"
+          className={styles.gameSelectorLink}
+        >
+          <FontAwesomeIcon icon={faPeopleArrows} />
+          <span>Play With a Friend</span>
         </Link>
-        <Link href="/online/create/private" className={styles.baseCardLink}>
-          Play with a friend
+        <Link
+          href="/ultimate-tic-tac-toe/online/create/public"
+          className={styles.gameSelectorLink}
+        >
+          <FontAwesomeIcon icon={faGlobe} />
+          <span>Play Online</span>
         </Link>
-      </BaseCard>
+      </div>
     </div>
   );
 }

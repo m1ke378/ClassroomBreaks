@@ -4,30 +4,29 @@
   align-items: center;
 }
 
-.baseCardLink {
-  background-color: var(--child-divs-background);
-  border-radius: 20px;
-  padding: 2rem;
+.gameCardsContainer {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
 }
 
-.baseCardLink span {
-  transition: all 0.3s ease-in-out;
+.gameCardLink {
+  border-radius: 30px;
 }
 
-.baseCardLink:active {
-  background-color: var(--child-divs-background-hover);
-  box-shadow: inset var(--box-shadow);
-}
-
-.baseCardLink:active span {
-  transform: translateY(5px);
+.gameCardLink:active {
+  scale: 1.01;
+  box-shadow: var(--box-shadow);
 }
 
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
-  .baseCardLink:hover {
-    background-color: var(--child-divs-background-hover);
+  .gameCardLink:hover {
+    scale: 1.02;
+    box-shadow: var(--box-shadow);
   }
 }

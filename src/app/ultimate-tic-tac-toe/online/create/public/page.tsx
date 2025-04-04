@@ -76,7 +76,6 @@ export default function CreateOnlinePublicGamePage() {
       </BaseCard>
       <BaseCard>
         <h3 className="title">Create public room</h3>
-        {/* Include the client component */}
         <CreateRoomClient />
       </BaseCard>
 

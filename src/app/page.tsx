@@ -1,32 +1,23 @@
 import styles from "./page.module.css";
-import motion from "motion/react";
 import Link from "next/link";
 
-import BaseCard from "@/components/BaseCard/BaseCard";
+import GameCard from "@/components/GameCard/GameCard";
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <BaseCard>
-        <Link
-          href="/ultimate-tic-tac-toe/local/create"
-          className={styles.baseCardLink}
-        >
-          Play locally
+      <div className={styles.gameCardsContainer}>
+        <Link href="/ultimate-tic-tac-toe" className={styles.gameCardLink}>
+          <GameCard
+            title="UltimateTicTacToe"
+            imgSrc="/images/ultimate_tic_tac_toe.png"
+            imgAlt="UltimateTicTacToe game image"
+          />
         </Link>
-        <Link
-          href="/ultimate-tic-tac-toe/online/create/public"
-          className={styles.baseCardLink}
-        >
-          Play online
+        <Link href="/ultimate-tic-tac-toe" className={styles.gameCardLink}>
+          <GameCard title="SOS (In progress)" imgAlt="SOS game image" />
         </Link>
-        <Link
-          href="/ultimate-tic-tac-toe/online/create/private"
-          className={styles.baseCardLink}
-        >
-          Play with a friend
-        </Link>
-      </BaseCard>
+      </div>
     </div>
   );
 }

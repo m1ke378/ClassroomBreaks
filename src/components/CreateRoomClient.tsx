@@ -1,4 +1,4 @@
-"use client"; // Mark this component as a client component
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -18,7 +18,7 @@ export default function CreateRoomClient() {
 
     let playerName = playerNameRef.current.value;
 
-    fetch(`${API_URL}/create-room`, {
+    fetch(`${API_URL}/create-public-room`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
