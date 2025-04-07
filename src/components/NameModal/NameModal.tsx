@@ -8,7 +8,6 @@ export default function NameModal({
   handleJoinRoom,
   closeModal,
   requirePassword,
-  passwordError,
 }: {
   handleJoinRoom: (playerName: string, password?: string) => void;
   closeModal: () => void;
@@ -36,7 +35,6 @@ export default function NameModal({
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={passwordError ? { boxShadow: "1px red" } : {}}
           />
         )}
         <div className={styles.modalActions}>

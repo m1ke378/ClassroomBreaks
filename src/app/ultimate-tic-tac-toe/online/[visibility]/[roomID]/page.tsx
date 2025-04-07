@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { error } from "console";
+import ErrorModal from "@/components/ErrorModal/ErrorModal";
 
 export default function RoomPage({
   params,
@@ -27,7 +29,8 @@ export default function RoomPage({
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
 
@@ -67,6 +70,11 @@ export default function RoomPage({
 
     socket.on("player2Left", () => {
       console.log("Guest player left");
+      setErrorMessage("Player 2 left the game");
+      openErrorModal();
+      setTimeout(() => {
+        closeErrorModal();
+      }, 1000);
       setIsWaitingForPlayer(true);
       setPlayers(null);
       setCurrentPlayer(null);
@@ -80,8 +88,12 @@ export default function RoomPage({
 
     socket.on("passwordError", () => {
       console.log("Incorrect or missing password");
-      setPasswordError(true);
-      openModal();
+      setErrorMessage("Incorrect or missing password");
+      openErrorModal();
+      setTimeout(() => {
+        closeErrorModal();
+        openModal();
+      }, 1000);
     });
 
     return () => {
@@ -106,6 +118,14 @@ export default function RoomPage({
 
   const openModal = () => {
     setIsModalOpen(true);
+  };
+
+  const openErrorModal = () => {
+    setIsErrorModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
   };
 
   const closeModal = () => {
@@ -194,9 +214,10 @@ export default function RoomPage({
           handleJoinRoom={handleJoinRoom}
           closeModal={closeModal}
           requirePassword={visibility === "private"}
-          passwordError={passwordError}
         />
       )}
+
+      {isErrorModalOpen && <ErrorModal errorMessage={errorMessage} />}
     </div>
   );
 }
