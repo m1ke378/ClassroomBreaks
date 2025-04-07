@@ -42,8 +42,12 @@ export default function RoomPage({
     });
 
     socket.on("error", (error) => {
-      console.error(error);
-      throw error;
+      setErrorMessage(error);
+      openErrorModal();
+      setTimeout(() => {
+        closeErrorModal();
+      }, 2000);
+      router.push(`/ultimate-tic-tac-toe`);
     });
 
     socket.on("message", (event) => {});
@@ -139,10 +143,6 @@ export default function RoomPage({
       console.log(`Joining room: ${roomID}`);
       socket &&
         socket.emit("joinRoom", { roomID, playerName: playerName, password });
-
-      // Testing
-      // sessionStorage.removeItem("password");
-      // sessionStorage.removeItem("playerName");
     }
   };
 
