@@ -102,6 +102,8 @@ export default function RoomPage({
 
     return () => {
       disconnectSocket();
+      sessionStorage.removeItem("playerName");
+      sessionStorage.removeItem("password");
     };
   }, [socket]);
 
