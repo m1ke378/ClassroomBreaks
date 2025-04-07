@@ -139,8 +139,10 @@ export default function RoomPage({
       console.log(`Joining room: ${roomID}`);
       socket &&
         socket.emit("joinRoom", { roomID, playerName: playerName, password });
-      sessionStorage.removeItem("password");
-      sessionStorage.removeItem("playerName");
+
+      // Testing
+      // sessionStorage.removeItem("password");
+      // sessionStorage.removeItem("playerName");
     }
   };
 
