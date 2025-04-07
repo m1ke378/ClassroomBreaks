@@ -42,12 +42,13 @@ export default function RoomPage({
     });
 
     socket.on("error", (error) => {
+      console.error("Socket error:", error);
       setErrorMessage(error);
       openErrorModal();
       setTimeout(() => {
         closeErrorModal();
+        router.push(`/ultimate-tic-tac-toe`);
       }, 2000);
-      router.push(`/ultimate-tic-tac-toe`);
     });
 
     socket.on("message", (event) => {});
