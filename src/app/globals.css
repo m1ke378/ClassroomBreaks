@@ -9,6 +9,7 @@
   --box-shadow: 5px 5px 10px rgba(34, 73, 94, 0.5);
 
   --text: #ededed;
+  --text-soft: #b0c3cb;
   --placeholder: #708893;
 
   --submit-color: rgb(47, 195, 91);
@@ -48,6 +49,7 @@
     --box-shadow: 5px 5px 15px rgba(3, 15, 22, 0.8);
 
     --text: #ededed;
+    --text-soft: #91a6af;
     --placeholder: #3f4e56;
 
     --submit-color: rgb(40, 149, 71);
@@ -108,6 +110,17 @@ a {
   transition: all 0.3s ease-in-out;
 }
 
+.icon-button {
+  cursor: pointer !important;
+  border: none;
+  background: none;
+  color: var(--text-soft);
+  font-size: 1rem;
+  border-radius: 0;
+  padding: 0;
+  transition: all 0.3s ease-in-out;
+}
+
 button {
   cursor: pointer !important;
   border: none;
@@ -126,9 +139,13 @@ button.submit-button {
   background: var(--submit-gradient);
 }
 
-button.submit-button:hover {
-  box-shadow: var(--submit-shadow);
-  transform: translateY(-2px);
+.fake-input {
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  background: var(--divs-background);
+  color: var(--text-soft);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 input {
@@ -190,6 +207,16 @@ input::placeholder {
 @media (hover: hover) {
   button:hover {
     background-color: var(--child-divs-background-hover);
+  }
+
+  .icon-button:hover {
+    background-color: none;
+    color: var(--text);
+  }
+
+  button.submit-button:hover {
+    box-shadow: var(--submit-shadow);
+    transform: translateY(-2px);
   }
 }
 

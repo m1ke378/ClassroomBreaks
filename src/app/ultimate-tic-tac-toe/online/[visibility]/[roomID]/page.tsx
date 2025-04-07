@@ -8,6 +8,8 @@ import { Cell, Player, Players } from "@/utils/types";
 import NameModal from "@/components/NameModal/NameModal";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader/Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 export default function RoomPage({
   params,
@@ -143,6 +145,27 @@ export default function RoomPage({
         >
           <h1>Waiting for players</h1>
           <Loader />
+          {visibility === "private" && (
+            <div style={{ textAlign: "center", marginTop: "2rem" }}>
+              <h3 style={{ marginBottom: "1rem" }}>
+                Send the link to a friend
+              </h3>
+              <div
+                className="fake-input"
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <h4>{window.location.href}</h4>
+                <button
+                  className="icon-button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCopy} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : state && currentPlayer ? (
         <div style={{ flex: 1 }}>
