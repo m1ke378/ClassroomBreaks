@@ -8,7 +8,7 @@
   --background-blur: blur(10px);
   --box-shadow: 5px 5px 10px rgba(34, 73, 94, 0.5);
 
-  --foreground: #ededed;
+  --text: #ededed;
   --placeholder: #708893;
 
   --submit-color: rgb(47, 195, 91);
@@ -47,7 +47,7 @@
     --background-blur: blur(10px);
     --box-shadow: 5px 5px 15px rgba(3, 15, 22, 0.8);
 
-    --foreground: #ededed;
+    --text: #ededed;
     --placeholder: #3f4e56;
 
     --submit-color: rgb(40, 149, 71);
@@ -90,7 +90,7 @@ body {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--gradient);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -99,6 +99,7 @@ body {
 
 main {
   padding: 2rem 4rem;
+  width: 100%;
 }
 
 a {
@@ -111,11 +112,79 @@ button {
   cursor: pointer !important;
   border: none;
   background: none;
-  color: var(--foreground);
+  color: var(--text);
   font-size: 1rem;
   border-radius: 30px;
-  padding: 0.8rem 2rem;
+  padding: 1rem 2rem;
   transition: all 0.3s ease-in-out;
+}
+
+button.submit-button {
+  font-weight: 600;
+  display: block;
+  margin: 0 auto;
+  background: var(--submit-gradient);
+}
+
+button.submit-button:hover {
+  box-shadow: var(--submit-shadow);
+  transform: translateY(-2px);
+}
+
+input {
+  padding: 1rem;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  background: var(--divs-background);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+input::placeholder {
+  color: var(--placeholder);
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.input-container-inline {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-container-local {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+}
+
+.input-container-local input {
+  flex: 1;
+}
+
+.input-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.input-button-wrapper button {
+  padding: 1.2rem;
+  height: 100%;
+  font-size: 1rem;
+  margin: 0;
 }
 
 @media (hover: hover) {

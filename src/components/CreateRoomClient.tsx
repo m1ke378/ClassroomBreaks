@@ -3,60 +3,78 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-export default function CreateRoomClient() {
+export default function CreateRoomClient({
+  isPrivate,
+}: {
+  isPrivate: boolean;
+}) {
   const [message, setMessage] = useState("");
   const playerNameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  function createPublicRoom() {
-    if (!playerNameRef.current || !playerNameRef.current.value) {
-      setMessage("Please enter a name.");
+  function createRoom() {
+    const playerName = playerNameRef.current?.value;
+    const password = isPrivate ? passwordRef.current?.value : null;
+
+    if (!playerName) {
+      setMessage("Please enter your name.");
       return;
     }
 
-    let playerName = playerNameRef.current.value;
+    if (isPrivate && password) {
+      sessionStorage.setItem("password", password);
+    }
 
-    fetch(`${API_URL}/create-public-room`, {
+    sessionStorage.setItem("playerName", playerName);
+
+    fetch(`${API_URL}/create-room`, {
       method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        isPrivate: false,
-        password: null,
+        isPrivate: isPrivate ? "1" : "0",
         hostName: playerName,
+        password,
       }),
     })
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        setMessage(data.message);
-        if (data.roomId)
+        if (data.roomID) {
           router.push(
-            `/ultimate-tic-tac-toe/online/${data.roomId}?player-name=${playerName}`
+            `/ultimate-tic-tac-toe/online/${isPrivate ? "private" : "public"}/${
+              data.roomID
+            }`
           );
+        } else {
+          setMessage(data.message);
+        }
       })
-      .catch((error) => {
-        setMessage("Failed to create room.");
-        console.error(error);
-      });
+      .catch(() => setMessage("Error creating room."));
   }
 
   return (
-    <div className="input-container">
-      <label htmlFor="player1input">Name</label>
-      <div className="input-button-wrapper">
+    <div className={isPrivate ? "input-container" : "input-container-inline"}>
+      <input
+        ref={playerNameRef}
+        placeholder="Name"
+        autoComplete="off"
+        type="text"
+      />
+
+      {isPrivate && (
         <input
-          type="text"
-          id="player1input"
-          placeholder="John"
-          ref={playerNameRef}
+          ref={passwordRef}
+          placeholder="Password"
+          type="password"
+          autoComplete="off"
         />
-        <button className="submit-button" onClick={createPublicRoom}>
-          Create
-        </button>
-      </div>
+      )}
+
+      <button className="submit-button" onClick={createRoom}>
+        Create
+      </button>
       {message && <p>{message}</p>}
     </div>
   );

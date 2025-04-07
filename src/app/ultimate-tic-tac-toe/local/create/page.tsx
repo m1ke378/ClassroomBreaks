@@ -30,7 +30,7 @@ export default function CreateLocalGamePage() {
     <div className="create-page">
       <BaseCard>
         <h3 className="title">Insert the names</h3>
-        <div className="inputs-container">
+        <div className="input-container">
           <div className="input-container-local">
             <span className="symbol-label x-symbol">X</span>
             <input

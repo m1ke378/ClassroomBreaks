@@ -21,14 +21,14 @@ export default function Home() {
           <span>Play Locally</span>
         </Link>
         <Link
-          href="/ultimate-tic-tac-toe/online/create/private"
+          href="/ultimate-tic-tac-toe/online/private/create"
           className={styles.gameSelectorLink}
         >
           <FontAwesomeIcon icon={faPeopleArrows} />
           <span>Play With a Friend</span>
         </Link>
         <Link
-          href="/ultimate-tic-tac-toe/online/create/public"
+          href="/ultimate-tic-tac-toe/online/public/create"
           className={styles.gameSelectorLink}
         >
           <FontAwesomeIcon icon={faGlobe} />

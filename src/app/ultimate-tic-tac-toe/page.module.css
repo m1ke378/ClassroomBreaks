@@ -26,8 +26,9 @@
 .gameSelectorLink {
   background-color: var(--divs-background);
   border-radius: 20px;
-  padding: 2rem 6rem;
+  padding: 2rem 5rem;
   text-align: left;
+  text-wrap: nowrap;
 }
 
 .gameSelectorLink span {

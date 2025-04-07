@@ -7,67 +7,6 @@
   gap: 2rem;
 }
 
-.submit-button {
-  font-weight: 600;
-  display: block;
-  margin: 1.5rem auto;
-  background: var(--submit-gradient);
-}
-
-.submit-button:hover {
-  box-shadow: var(--submit-shadow);
-  transform: translateY(-2px);
-}
-
-input {
-  padding: 1.2rem;
-  border-radius: 30px;
-  border: none;
-  outline: none;
-  background: var(--divs-background);
-  color: var(--foreground);
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease-in-out;
-  width: 100%;
-}
-
-input::placeholder {
-  color: var(--placeholder);
-}
-
-.inputs-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-}
-
-.input-container-local {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  align-items: center;
-}
-
-.input-container-local input {
-  flex: 1;
-}
-
-.input-button-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.input-button-wrapper button {
-  padding: 1.2rem;
-  height: 100%;
-  font-size: 1rem;
-  margin: 0;
-}
-
 .symbol-label {
   font-size: 2rem;
   font-weight: 600;
@@ -96,7 +35,7 @@ label {
   padding: 0.5rem;
   border-radius: 20px;
   background: var(--divs-background);
-  color: var(--foreground);
+  color: var(--text);
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease-in-out;
