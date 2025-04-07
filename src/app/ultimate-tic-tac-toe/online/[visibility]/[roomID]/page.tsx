@@ -47,7 +47,7 @@ export default function RoomPage({
       openErrorModal();
       setTimeout(() => {
         closeErrorModal();
-        router.push(`/ultimate-tic-tac-toe`);
+        router.push(`/ultimate-tic-tac-toe/online/${visibility}/create`);
       }, 2000);
     });
 
