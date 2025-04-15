@@ -5,6 +5,7 @@ import "./globals.css";
 import Nav from "@/components/Nav/Nav";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import ClientToast from "@/components/ClientToast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ClientToast />
         <header>
           <Nav />
         </header>

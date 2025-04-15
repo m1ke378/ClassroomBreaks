@@ -26,9 +26,12 @@ export default function CreateRoomClient({
 
     if (isPrivate && password) {
       sessionStorage.setItem("password", password);
+      console.log("Saved pass:", password);
     }
 
     sessionStorage.setItem("playerName", playerName);
+
+    console.log("Saved playerName:", playerName);
 
     fetch(`${API_URL}/create-room`, {
       method: "POST",

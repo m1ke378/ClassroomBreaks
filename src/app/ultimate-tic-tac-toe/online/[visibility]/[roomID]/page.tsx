@@ -2,7 +2,7 @@
 
 import Board from "@/components/Board/Board";
 import TopBar from "@/components/TopBar/TopBar";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import socket, { connectSocket, disconnectSocket } from "@/lib/socket";
 import { Cell, Player, Players } from "@/utils/types";
 import NameModal from "@/components/NameModal/NameModal";
@@ -10,8 +10,7 @@ import { useRouter } from "next/navigation";
 import Loader from "@/components/Loader/Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
-import { error } from "console";
-import ErrorModal from "@/components/ErrorModal/ErrorModal";
+import { toast } from "react-toastify";
 
 export default function RoomPage({
   params,
@@ -29,10 +28,9 @@ export default function RoomPage({
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const router = useRouter();
+  const reconectionTimoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (connectSocket()) setIsConnected(true);
@@ -41,14 +39,15 @@ export default function RoomPage({
       setIsConnected(false);
     });
 
-    socket.on("error", (error) => {
-      console.error("Socket error:", error);
-      setErrorMessage(error);
-      openErrorModal();
-      setTimeout(() => {
-        closeErrorModal();
-        router.push(`/ultimate-tic-tac-toe/online/${visibility}/create`);
-      }, 2000);
+    socket.on("error", (errorMessage) => {
+      console.error("Socket error:", errorMessage);
+      toast.error(errorMessage);
+      router.push(`/ultimate-tic-tac-toe/online/${visibility}/create`);
+    });
+
+    socket.on("token", (newToken) => {
+      console.log("Token received:", newToken);
+      sessionStorage.setItem("token", newToken);
     });
 
     socket.on("message", (event) => {});
@@ -73,13 +72,25 @@ export default function RoomPage({
       setState(gameState);
     });
 
+    socket.on("playerDisconnected", () => {
+      toast.warn("Player disconnected, waiting for reconnection...");
+      setIsWaitingForPlayer(true);
+      reconectionTimoutRef.current = setTimeout(() => {
+        toast.error("Player did not reconnect in time");
+        router.push(`/ultimate-tic-tac-toe/online/${visibility}/create`);
+      }, 10000);
+    });
+
+    socket.on("playerReconnected", () => {
+      if (reconectionTimoutRef.current) {
+        clearTimeout(reconectionTimoutRef.current);
+      }
+      toast.success("Player reconnected");
+      setIsWaitingForPlayer(false);
+    });
+
     socket.on("player2Left", () => {
-      console.log("Guest player left");
-      setErrorMessage("Player 2 left the game");
-      openErrorModal();
-      setTimeout(() => {
-        closeErrorModal();
-      }, 1000);
+      toast.error("Player left");
       setIsWaitingForPlayer(true);
       setPlayers(null);
       setCurrentPlayer(null);
@@ -87,24 +98,22 @@ export default function RoomPage({
     });
 
     socket.on("hostLeft", () => {
-      console.log("Host left the game");
-      router.push(`/ultimate-tic-tac-toe`);
+      toast.error("Host left");
+      router.push(`/ultimate-tic-tac-toe/online/${visibility}/create`);
     });
 
     socket.on("passwordError", () => {
-      console.log("Incorrect or missing password");
-      setErrorMessage("Incorrect or missing password");
-      openErrorModal();
-      setTimeout(() => {
-        closeErrorModal();
-        openModal();
-      }, 1000);
+      toast.error("Incorrect or missing password");
+      openModal();
     });
 
     return () => {
-      disconnectSocket();
+      console.log("Cleaning up room");
+      socket.emit("leaveRoom");
+      sessionStorage.removeItem("token");
       sessionStorage.removeItem("playerName");
       sessionStorage.removeItem("password");
+      disconnectSocket();
     };
   }, [socket]);
 
@@ -127,25 +136,18 @@ export default function RoomPage({
     setIsModalOpen(true);
   };
 
-  const openErrorModal = () => {
-    setIsErrorModalOpen(true);
-  };
-
-  const closeErrorModal = () => {
-    setIsErrorModalOpen(false);
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
   const handleJoinRoom = (playerName: string, password: string | undefined) => {
+    const token = sessionStorage.getItem("token") || undefined;
     console.log("Joining room...");
     console.log("Name: ", playerName);
     if (isConnected) {
       console.log(`Joining room: ${roomID}`);
       socket &&
-        socket.emit("joinRoom", { roomID, playerName: playerName, password });
+        socket.emit("joinRoom", { roomID, playerName, password, token });
     }
   };
 
@@ -221,8 +223,6 @@ export default function RoomPage({
           requirePassword={visibility === "private"}
         />
       )}
-
-      {isErrorModalOpen && <ErrorModal errorMessage={errorMessage} />}
     </div>
   );
 }
